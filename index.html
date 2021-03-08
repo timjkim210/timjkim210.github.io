@@ -75,8 +75,7 @@
         var pieHeight = 500;
         var colors = d3.scaleOrdinal(d3.schemeDark2)
             var pieChart = d3.select("body").append("svg")
-                .attr("width", pieWidth).attr("height", pieHeight)
-                .style("background", "blue");
+                .attr("width", pieWidth).attr("height", pieHeight);
             var details = [{race: "Asian", pct: 39},
                         {race: "Latino", pct: 32}, 
                         {race: "White", pct: 15},
@@ -87,8 +86,10 @@
             var segments = d3.arc()
                                 .innerRadius(0)
                                 .outerRadius(200)
-                                .padAngle(.05)
-                                data
+                                .padAngle(.05);
+
+            var sections = svg.append("g").attr("transform", "translate(250, 950)")
+                                .selectAll("path").data(data);
             sections.enter().append("path").attr("d", segments).attr("fill", 
             function(d){return colors(d.data.pct)})
 
