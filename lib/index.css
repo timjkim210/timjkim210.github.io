@@ -1,0 +1,63 @@
+.sjsu {
+    position: absolute;
+    text-align: center;
+    padding: 10px;
+    display: none;
+    z-index: 1;
+    background-color: rgb(29, 85, 162);
+    color: goldenrod;
+    width: 40%;
+    list-style-type: none;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.ucb {
+    position: absolute;
+    text-align: center;
+    padding: 10px;
+    display: none;
+    z-index: 1,
+}
+
+.ohiost {
+    position: absolute;
+    text-align: center;
+    padding: 10px;
+    display: none;
+    z-index: 1,
+}
+
+.pitt {
+    position: absolute;
+    text-align: center;
+    padding: 10px;
+    display: none;
+    z-index: 1,
+}
+
+.chi {
+    position: absolute;
+    text-align: center;
+    padding: 10px;
+    display: none;
+    z-index: 1,
+}
+
+.sea {
+    position: absolute;
+    text-align: center;
+    padding: 10px;
+    display: none;
+    z-index: 1,
+}
+
+.show {
+    position: absolute;
+    text-align: center;
+    padding: 10px;
+    display: block;
+    z-index: 1,
+}
