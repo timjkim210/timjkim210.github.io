@@ -1,0 +1,142 @@
+<script>
+var pieWidth = 600;
+var pieHeight = 500;
+var colors = d3.scaleOrdinal(d3.schemeBlues[5])
+var pieChart = d3.select("body").append("svg")
+.attr("width", pieWidth).attr("height", pieHeight);
+var details = [{race: "Asian", pct: 41},
+{race: "Latino", pct: 18},
+{race: "White", pct: 28},
+{race: "Black/African American", pct: 2},
+{race: "Other/Unknown/Mixed Race (Not Latino)", pct: 12}]
+var data = d3.pie().value(function(d){return d.pct})(details);
+console.log(data);
+var segments = d3.arc()
+.innerRadius(0)
+.outerRadius(200)
+.padAngle(.05)
+.padRadius(50);
+
+var sections = d3.select(".ucb-pie-chart").append("g").attr("transform", "translate(250, 250)")
+.selectAll("path").data(data);
+sections.enter().append("path").attr("d", segments).attr("fill",
+function(d){return colors(d.data.pct)})
+
+var content = d3.select("g").selectAll("text").data(data);
+content.enter().append("text").each(function(d){
+var center = segments.centroid(d);
+d3.select(this).attr("x", center[0]).attr("y", center[1])
+.text(`${d.data.pct}%`)
+});
+
+var legends = d3.select(".ucb-pie-chart").append("g").attr("transform", "translate(500, 100)")
+.selectAll(".legends").data(data);
+var legend = legends.enter().append("g").classed("legends", true)
+.attr("transform", function(d, i){return "translate(0," + (i+1)*30 + ")";});
+legend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
+function(d){return colors(d.data.pct);});
+legend.append("text").text(function(d){return d.data.race;})
+.attr("fill", function(d){return colors(d.data.pct)})
+.attr("x", 30)
+.attr("y", 20);
+
+</script>
+
+<!-- Demographic Data -->
+
+University of California Berkeley
+var details = [{race: "Asian", pct: 41},
+{race: "Latino", pct: 18},
+{race: "White", pct: 28},
+{race: "Black/African American", pct: 2},
+{race: "Other/Unknown/Mixed Race (Not Latino)", pct: 12}]
+
+University of Washington
+var details = [{race: "Asian", pct: 30},
+{race: "Latino", pct: 11},
+{race: "White", pct: 44},
+{race: "Black/African American", pct: 4},
+{race: "Other/Unknown/Mixed Race (Not Latino)", pct: 11}]
+
+University of Chicago
+var details = [{race: "Asian", pct: 22},
+{race: "Latino", pct: 17},
+{race: "White", pct: 44},
+{race: "Black/African American", pct: 7},
+{race: "Other/Unknown/Mixed Race (Not Latino)", pct: 10}]
+
+Ohio State University
+var details = [{race: "Asian", pct: 8},
+{race: "Latino", pct: 5},
+{race: "White", pct: 72},
+{race: "Black/African American", pct: 7},
+{race: "Other/Unknown/Mixed Race (Not Latino)", pct: 8}]
+
+University of Pittsburgh
+var details = [{race: "Asian", pct: 12},
+{race: "Latino", pct: 5},
+{race: "White", pct: 72},
+{race: "Black/African American", pct: 6},
+{race: "Other/Unknown/Mixed Race (Not Latino)", pct: 5}]
+
+<!-- Popular Majors Data -->
+
+University of Cal, Berkeley
+var majorDetails = [
+{ major: "Other", pct: 44 },
+{ major: "Social Sciences", pct: 20 },
+{ major: "Engineering", pct: 11 },
+{ major: "Biological and Biomedical Sciences", pct: 10 },
+{ major: "Computer and Information Sciences", pct: 8 },
+{ major: "Interdisciplinary Studies", pct: 7 }
+]
+
+University of Washington
+var majorDetails = [
+{ major: "Other", pct: 50 },
+{ major: "Social Sciences", pct: 12 },
+{ major: "Engineering", pct: 10 },
+{ major: "Biological and Biomedical Sciences", pct: 10 },
+{ major: "Computer and Information Sciences", pct: 10 },
+{ major: "Business/Marketing", pct: 8 }
+]
+
+University of Washington
+var majorDetails = [
+{ major: "Other", pct: 50 },
+{ major: "Social Sciences", pct: 12 },
+{ major: "Engineering", pct: 10 },
+{ major: "Biological and Biomedical Sciences", pct: 10 },
+{ major: "Computer and Information Sciences", pct: 10 },
+{ major: "Business/Marketing", pct: 8 }
+]
+
+University of Chicago
+var majorDetails = [
+{ major: "Other", pct: 35 },
+{ major: "Social Sciences", pct: 30 },
+{ major: "Math and Statistics", pct: 13 },
+{ major: "Biological and Biomedical Sciences", pct: 8 },
+{ major: "Physical Sciences", pct: 7 },
+{ major: "Public Administration and Social Services", pct: 7 }
+]
+
+Ohio State University
+var majorDetails = [
+{ major: "Other", pct: 77 },
+{ major: "Finance", pct: 6 },
+{ major: "Psychology", pct: 5 },
+{ major: "Marketing", pct: 4 },
+{ major: "Rhetoric", pct: 4 },
+{ major: "Biology", pct: 4 }
+]
+
+University of Pittsburgh
+var majorDetails = [
+{ major: "Other", pct: 42 },
+{ major: "Business/Marketing", pct: 15 },
+{ major: "Engineering", pct: 13 },
+{ major: "Health", pct: 11 },
+{ major: "Social Sciences", pct: 10 },
+{ major: "Biology", pct: 9 }
+]

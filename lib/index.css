@@ -1,6 +1,27 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.map-and-college {
+    display: flex;
+}
+
+.sjsu h3 {
+    font-size: 40px;
+    margin-left: 15px;
+}
+
+.sjsu span {
+    margin-left: 15px;
+    transform: translateY(150%);
+}
+
+.sjsu ul {
+    font-size: 25px;
+}
+
 .sjsu {
-    position: absolute;
-    text-align: center;
     padding: 10px;
     display: none;
     z-index: 1;
@@ -8,6 +29,10 @@
     color: goldenrod;
     width: 40%;
     list-style-type: none;
+}
+
+.sjsu-pie-chart {
+    display: none;
 }
 
 ul {
@@ -20,6 +45,10 @@ ul {
     padding: 10px;
     display: none;
     z-index: 1,
+}
+
+.ucb-pie-chart {
+    display: none;
 }
 
 .ohiost {
@@ -55,9 +84,11 @@ ul {
 }
 
 .show {
-    position: absolute;
-    text-align: center;
     padding: 10px;
     display: block;
     z-index: 1,
+}
+
+.sjsu-majors {
+    display: block;
 }
