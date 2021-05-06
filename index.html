@@ -1,6 +1,8 @@
 
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,13 +14,15 @@
     <script src="./lib/index.js"></script>
     <link rel="stylesheet" href="./lib/index.css">
 </head>
+
 <body>
     <h1>US Colleges Data Visualization</h1>
     <div class='map-and-college'>
         <svg id="my_usmap" width="880" height="600"></svg>
+
             <div class="sjsu" class="main-campus-info">
                 
-                <h3><img src="./assets/sjsu_logo.gif" alt=""><span>San Jose State University</span></h3>
+                <h3><img src="./assets/sjsu_logo.gif"><span>San Jose State University</span></h3>
                 <ul>
                     <li>Undergraduate Population: 27,702</li>
                     <li>International Students: 3,333</li>
@@ -27,7 +31,13 @@
             </div>
             
             <div class="ucb">
-                <h3>University of California, Berkeley</h3>
+
+                <h3><img src="./assets/cal_logo.gif"><span>UC Berkeley</span></h3>
+                <ul>
+                    <li>Undergraduate Population: 30,853</li>
+                    <li>International Students: 7,222</li>
+                    <li>International Grad Students: 3,221</li>
+                </ul>
             </div>
             
             <div class="ohiost">
@@ -47,9 +57,16 @@
             </div>
     </div>
 
-        <svg class="sjsu-pie-chart" width="800" height="500"></svg>
+    <div class="sjsu-data">
+    <svg class="sjsu-pie-chart" width="800" height="500"></svg>
+    <svg class="sjsu-majors" width="800" height="500"></svg>
+    </div>
+
+    <div class="ucb-data">
         <svg class="ucb-pie-chart" width="800" height="500"></svg>
-        <svg class="sjsu-majors" width="800" height="500"></svg>
+        <svg class="ucb-majors" width="800" height="500"></svg>
+    </div>
+    
 
         <script>
 
@@ -107,135 +124,180 @@
                     .on("click", clickHandler);
             })
 
+            //SJSU Majors Pie Chart
+
+                var mColors = d3.scaleOrdinal(d3.schemeBlues[6])
+                var majorDetails = [
+                    { major: "Other", pct: 40 },
+                    { major: "Business/Marketing", pct: 26 },
+                    { major: "Engineering", pct: 14 },
+                    { major: "Health", pct: 7 },
+                    { major: "Visual/Performing Arts", pct: 7 },
+                    { major: "Psychology", pct: 6 }
+                ]
+                var mData = d3.pie().value(function (e) { return e.pct })(majorDetails);
+                console.log('hello', mData);
+                var mSegments = d3.arc()
+                    .innerRadius(0)
+                    .outerRadius(200)
+                    .padAngle(.05)
+                    .padRadius(50);
+
+                var mSections = d3.select(".sjsu-majors").append("g").attr("transform", "translate(250, 250)")
+                    .selectAll("path").data(mData);
+                mSections.enter().append("path").attr("d", mSegments).attr("fill",
+                    function (e) {
+                         return mColors(e.data.pct)
+                    })
 
 
-    var majorWidth = 600;
-    var majorHeight = 500;
-    var mColors = d3.scaleOrdinal(d3.schemeBlues[6])
-    var majorChart = d3.select("body").append("svg")
-        .attr("width", majorWidth).attr("height", majorHeight);
-    var majorDetails = [
-        { major: "Other", pct: 40 },
-        { major: "Business/Marketing", pct: 26 },
-        { major: "Engineering", pct: 14 },
-        { major: "Health", pct: 7 },
-        { major: "Visual/Performing Arts", pct: 7 },
-        { major: "Psychology", pct: 6 }
-    ]
-    var mData = d3.pie().value(function(e){ return e.pct })(majorDetails);
-    console.log(mData);
-    var mSegments = d3.arc()
-        .innerRadius(0)
-        .outerRadius(200)
-        .padAngle(.05)
-        .padRadius(50);
+                var mContent = d3.select("g").selectAll("text").data(mData);
+                mContent.enter().append("text").each(function (e) {
+                    var mCenter = mSegments.centroid(e);
+                    d3.select(this).attr("x", mCenter[0]).attr("y", mCenter[1])
+                        .text(`${e.data.pct}%`)
+                });
 
-    var mSections = d3.select(".sjsu-majors").append("g").attr("transform", "translate(250, 250)")
-        .selectAll("path").data(mData);
-    mSections.enter().append("path").attr("e", mSegments).attr("fill",
-        function(e){ return mColors(e.data.pct)})
+                var mLegends = d3.select(".sjsu-majors").append("g").attr("transform", "translate(500, 100)")
+                    .selectAll(".mLegends").data(mData);
+                var mLegend = mLegends.enter().append("g").classed("mLegends", true)
+                    .attr("transform", function (e, i) { return "translate(0," + (i + 1) * 30 + ")"; });
+                mLegend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
+                    function (e) { return mColors(e.data.pct); });
+                mLegend.append("text").text(function (e) { return e.data.major; })
+                    .attr("fill", function (e) { return mColors(e.data.pct) })
+                    .attr("x", 30)
+                    .attr("y", 20);
 
+                //SJSU Demographic Pie Chart
 
-    var mContent = d3.select("g").selectAll("text").data(mData);
-    mContent.enter().append("text").each(function (e) {
-        var mCenter = mSegments.centroid(e);
-        d3.select(this).attr("x", mCenter[0]).attr("y", mCenter[1])
-            .text(`${e.data.pct}%`)
-    });
-
-    var mLegends = d3.select(".sjsu-majors").append("g").attr("transform", "translate(500, 100)")
-        .selectAll(".mLegends").data(mData);
-    var mLegend = mLegends.enter().append("g").classed("mLegends", true)
-        .attr("transform", function (e, i) { return "translate(0," + (i + 1) * 30 + ")"; });
-    mLegend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
-        function (e) { return mColors(e.data.pct); });
-    mLegend.append("text").text(function (e) { return e.data.major; })
-        .attr("fill", function(e) { return mColors(e.data.pct) })
-        .attr("x", 30)
-        .attr("y", 20);
-
-            var pieWidth = 600;
-            var pieHeight = 500;
-            var colors = d3.scaleOrdinal(d3.schemeBlues[5])
-                var pieChart = d3.select("body").append("svg")
-                    .attr("width", pieWidth).attr("height", pieHeight);
-                var details = [{race: "Asian", pct: 39},
-                            {race: "Latino", pct: 32}, 
-                            {race: "White", pct: 15},
-                            {race: "Black/African American", pct: 4},
-                            {race: "Other/Unknown/Mixed Race (Not Latino)", pct: 10}]
-                var data = d3.pie().value(function(d){return d.pct})(details);
+                var colors = d3.scaleOrdinal(d3.schemeBlues[5])
+                var details = [{ race: "Asian", pct: 39 },
+                { race: "Latino", pct: 32 },
+                { race: "White", pct: 15 },
+                { race: "Black/African American", pct: 4 },
+                { race: "Other/Unknown/Mixed Race (Not Latino)", pct: 10 }]
+                var data = d3.pie().value(function (d) { return d.pct })(details);
                 console.log(data);
                 var segments = d3.arc()
-                                    .innerRadius(0)
-                                    .outerRadius(200)
-                                    .padAngle(.05)
-                                    .padRadius(50);
+                    .innerRadius(0)
+                    .outerRadius(200)
+                    .padAngle(.05)
+                    .padRadius(50);
 
                 var sections = d3.select(".sjsu-pie-chart").append("g").attr("transform", "translate(250, 250)")
-                                    .selectAll("path").data(data);
-                sections.enter().append("path").attr("d", segments).attr("fill", 
-                function(d){return colors(d.data.pct)})
+                    .selectAll("path").data(data);
+                sections.enter().append("path").attr("d", segments).attr("fill",
+                    function (d) { return colors(d.data.pct) })
 
                 var content = d3.select("g").selectAll("text").data(data);
-                content.enter().append("text").each(function(d){
+                                console.log('sjsu', d3.select("g").selectAll("text").data(data))
+                content.enter().append("text").each(function (d) {
                     var center = segments.centroid(d);
                     d3.select(this).attr("x", center[0]).attr("y", center[1])
-                    .text(`${d.data.pct}%`)
+                        .text(`${d.data.pct}%`)
                 });
 
                 var legends = d3.select(".sjsu-pie-chart").append("g").attr("transform", "translate(500, 100)")
-                                .selectAll(".legends").data(data);
+                    .selectAll(".legends").data(data);
                 var legend = legends.enter().append("g").classed("legends", true)
-                                .attr("transform", function(d, i){return "translate(0," + (i+1)*30 + ")";});
-                                legend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
-                                function(d){return colors(d.data.pct);});
-                                    legend.append("text").text(function(d){return d.data.race;})
-                                        .attr("fill", function(d){return colors(d.data.pct)})
-                                        .attr("x", 30)
-                                        .attr("y", 20);
+                    .attr("transform", function (d, i) { return "translate(0," + (i + 1) * 30 + ")"; });
+                legend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
+                    function (d) { return colors(d.data.pct); });
+                legend.append("text").text(function (d) { return d.data.race; })
+                    .attr("fill", function (d) { return colors(d.data.pct) })
+                    .attr("x", 30)
+                    .attr("y", 20);
 
+                //UCB Demographic Pie Chart
+                var berkColors = d3.scaleOrdinal(d3.schemeBlues[5])
+                var berkDetails = [{ race: "Asian", pct: 41 },
+                { race: "Latino", pct: 18 },
+                { race: "White", pct: 28 },
+                { race: "Black/African American", pct: 2 },
+                { race: "Other/Unknown/Mixed Race (Not Latino)", pct: 12 }]
+                var berkData = d3.pie().value(function (berk) { return berk.pct })(berkDetails);
+                console.log(berkData);
+                var berkSegments = d3.arc()
+                    .innerRadius(0)
+                    .outerRadius(200)
+                    .padAngle(.05)
+                    .padRadius(50);
 
-                var pieWidth = 600;
-                    var pieHeight = 500;
-                    var colors = d3.scaleOrdinal(d3.schemeBlues[5])
-                    var pieChart = d3.select("body").append("svg")
-                        .attr("width", pieWidth).attr("height", pieHeight);
-                    var details = [{ race: "Asian", pct: 41 },
-                    { race: "Latino", pct: 18 },
-                    { race: "White", pct: 28 },
-                    { race: "Black/African American", pct: 2 },
-                    { race: "Other/Unknown/Mixed Race (Not Latino)", pct: 12 }]
-                    var data = d3.pie().value(function (d) { return d.pct })(details);
-                    console.log(data);
-                    var segments = d3.arc()
+                var berkSections = d3.select(".ucb-pie-chart").append("g").attr("transform", "translate(250, 250)")
+                    .selectAll("path").data(berkData);
+                berkSections.enter().append("path").attr("d", berkSegments).attr("fill",
+                    function (berk) { return berkColors(berk.data.pct) })
+
+                var berkContent = d3.select("g").selectAll("text").data(berkData);
+                berkContent.enter().append("text").each(function (berk) {
+                    var berkCenter = berkSegments.centroid(berk);
+                    d3.select(this).attr("x", berkCenter[0]).attr("y", berkCenter[1])
+                        .text(`${berk.data.pct}%`);
+                });
+
+                var legends = d3.select(".ucb-pie-chart").append("g").attr("transform", "translate(500, 100)")
+                    .selectAll(".legends").data(data);
+                var legend = legends.enter().append("g").classed("legends", true)
+                    .attr("transform", function (d, i) { return "translate(0," + (i + 1) * 30 + ")"; });
+                legend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
+                    function (d) { return colors(d.data.pct); });
+                legend.append("text").text(function (d) { return d.data.race; })
+                    .attr("fill", function (d) { return colors(d.data.pct) })
+                    .attr("x", 30)
+                    .attr("y", 20);
+
+                //UCB Majors Pie Chart
+
+                var mColors = d3.scaleOrdinal(d3.schemeBlues[6])
+                    var majorDetails = [
+                            { major: "Other", pct: 44 },
+                            { major: "Social Sciences", pct: 20 },
+                            { major: "Engineering", pct: 11 },
+                            { major: "Biological and Biomedical Sciences", pct: 10 },
+                            { major: "Computer and Information Sciences", pct: 8 },
+                            { major: "Interdisciplinary Studies", pct: 7 }
+                        ]
+                    
+                    var mData = d3.pie().value(function (e) { return e.pct })(majorDetails);
+                    console.log('hello', mData);
+                    var mSegments = d3.arc()
                         .innerRadius(0)
                         .outerRadius(200)
                         .padAngle(.05)
                         .padRadius(50);
 
-                    var sections = d3.select(".ucb-pie-chart").append("g").attr("transform", "translate(250, 250)")
-                        .selectAll("path").data(data);
-                    sections.enter().append("path").attr("d", segments).attr("fill",
-                        function (d) { return colors(d.data.pct) })
+                    var mSections = d3.select(".ucb-majors").append("g").attr("transform", "translate(250, 250)")
+                        .selectAll("path").data(mData);
+                    mSections.enter().append("path").attr("d", mSegments).attr("fill",
+                        function (e) {
+                            return mColors(e.data.pct)
+                        })
 
-                    var content = d3.select("g").selectAll("text").data(data);
-                    content.enter().append("text").each(function (d) {
-                        var center = segments.centroid(d);
-                        d3.select(this).attr("x", center[0]).attr("y", center[1])
-                            .text(`${d.data.pct}%`)
+
+                    var mContent = d3.select("g").selectAll("text").data(mData);
+                    mContent.enter().append("text").each(function (e) {
+                        var mCenter = mSegments.centroid(e);
+                        d3.select(this).attr("x", mCenter[0]).attr("y", mCenter[1])
+                            .text(`${e.data.pct}%`)
                     });
 
-                    var legends = d3.select(".ucb-pie-chart").append("g").attr("transform", "translate(500, 100)")
-                        .selectAll(".legends").data(data);
-                    var legend = legends.enter().append("g").classed("legends", true)
-                        .attr("transform", function (d, i) { return "translate(0," + (i + 1) * 30 + ")"; });
-                    legend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
-                        function (d) { return colors(d.data.pct); });
-                    legend.append("text").text(function (d) { return d.data.race; })
-                        .attr("fill", function (d) { return colors(d.data.pct) })
+                    var mLegends = d3.select(".ucb-majors").append("g").attr("transform", "translate(500, 100)")
+                        .selectAll(".mLegends").data(mData);
+                    var mLegend = mLegends.enter().append("g").classed("mLegends", true)
+                        .attr("transform", function (e, i) { return "translate(0," + (i + 1) * 30 + ")"; });
+                    mLegend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
+                        function (e) { return mColors(e.data.pct); });
+                    mLegend.append("text").text(function (e) { return e.data.major; })
+                        .attr("fill", function (e) { return mColors(e.data.pct) })
                         .attr("x", 30)
                         .attr("y", 20);
+
+
+
+
+
+    
            
                 
         </script>

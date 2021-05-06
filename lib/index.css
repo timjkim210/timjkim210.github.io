@@ -35,20 +35,54 @@ body {
     display: none;
 }
 
+.sjsu-majors {
+    display: none;
+}
+
+.sjsu-data {
+    display: flex;
+    justify-content: space-around;
+}
+
 ul {
     list-style-type: none;
 }
 
+.ucb h3 {
+    font-size: 40px;
+    margin-left: 15px;
+}
+
+.ucb span {
+    margin-left: 15px;
+    transform: translateY(150%);
+}
+
+.ucb ul {
+    font-size: 25px;
+}
+
 .ucb {
-    position: absolute;
-    text-align: center;
     padding: 10px;
     display: none;
-    z-index: 1,
+    z-index: 1;
+    background-color: rgb(4,30,66);
+    color: rgb(255,199,44);
+    width: 40%;
+    list-style-type: none;
 }
 
 .ucb-pie-chart {
     display: none;
+}
+
+.ucb-majors {
+    display: none;
+}
+
+.ucb-data {
+    display: flex;
+    justify-content: space-around;
 }
 
 .ohiost {
@@ -89,6 +123,3 @@ ul {
     z-index: 1,
 }
 
-.sjsu-majors {
-    display: block;
-}
