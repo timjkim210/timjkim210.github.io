@@ -41,19 +41,40 @@
             </div>
             
             <div class="ohiost">
-                <h3>Ohio State University</h3>
+
+                <h3><img src="./assets/ ohiost_logo.gif"><span>Ohio State University</span></h3>
+                <ul>
+                    <li>Undergraduate Population: 30,853</li>
+                    <li>International Students: 7,222</li>
+                    <li>International Grad Students: 3,221</li>
+                </ul>
             </div>
             
             <div class="pitt">
-                <h3>University of Pittsburgh</h3>
+                <h3><img src="./assets/pitt_logo.gif"><span>University of Pittsburgh</span></h3>
+                <ul>
+                    <li>Undergraduate Population: 30,853</li>
+                    <li>International Students: 7,222</li>
+                    <li>International Grad Students: 3,221</li>
+                </ul>
             </div>
             
             <div class="chi">
-                <h3>University of Chicago</h3>
+                <h3><img src="./assets/chi.jpeg"><span>University of Chicago</span></h3>
+                <ul>
+                    <li>Undergraduate Population: 30,853</li>
+                    <li>International Students: 7,222</li>
+                    <li>International Grad Students: 3,221</li>
+                </ul>
             </div>
             
             <div class="sea">
-                <h3>University of Washington</h3>
+                <h3><img src="./assets/washington.gif"><span>University of Washington, Seattle</span></h3>
+                <ul>
+                    <li>Undergraduate Population: 30,853</li>
+                    <li>International Students: 7,222</li>
+                    <li>International Grad Students: 3,221</li>
+                </ul>
             </div>
     </div>
 
@@ -65,6 +86,26 @@
     <div class="ucb-data">
         <svg class="ucb-pie-chart" width="800" height="500"></svg>
         <svg class="ucb-majors" width="800" height="500"></svg>
+    </div>
+
+    <div class="ohiost-data">
+        <svg class="ohiost-pie-chart" width="800" height="500"></svg>
+        <svg class="ohiost-majors" width="800" height="500"></svg>
+    </div>
+
+    <div class="pitt-data">
+        <svg class="pitt-pie-chart" width="800" height="500"></svg>
+        <svg class="pitt-majors" width="800" height="500"></svg>
+    </div>
+
+    <div class="chi-data">
+        <svg class="chi-pie-chart" width="800" height="500"></svg>
+        <svg class="chi-majors" width="800" height="500"></svg>
+    </div>
+
+    <div class="sea-data">
+        <svg class="sea-pie-chart" width="800" height="500"></svg>
+        <svg class="sea-majors" width="800" height="500"></svg>
     </div>
     
 
@@ -293,6 +334,254 @@
                         .attr("x", 30)
                         .attr("y", 20);
 
+                        //Ohio State Demographic Pie Chart
+                            var ohioColors = d3.scaleOrdinal(d3.schemeBlues[5])
+                            var ohioDetails = [{ race: "Asian", pct: 8 },
+                                { race: "Latino", pct: 5 },
+                                { race: "White", pct: 72 },
+                                { race: "Black/African American", pct: 7 },
+                                { race: "Other/Unknown/Mixed Race (Not Latino)", pct: 8 }]
+                            var ohioData = d3.pie().value(function (ohio) { return ohio.pct })(ohioDetails);
+                            console.log(ohioData);
+                            var ohioSegments = d3.arc()
+                                .innerRadius(0)
+                                .outerRadius(200)
+                                .padAngle(.05)
+                                .padRadius(50);
+
+                            var ohioSections = d3.select(".ohiost-pie-chart").append("g").attr("transform", "translate(250, 250)")
+                                .selectAll("path").data(ohioData);
+                            ohioSections.enter().append("path").attr("d", ohioSegments).attr("fill",
+                                function (ohio) { return ohioColors(ohio.data.pct) })
+
+                            var ohioContent = d3.select("g").selectAll("text").data(ohioData);
+                            ohioContent.enter().append("text").each(function (ohio) {
+                                var ohioCenter = ohioSegments.centroid(ohio);
+                                d3.select(this).attr("x", ohioCenter[0]).attr("y", ohioCenter[1])
+                                    .text(`${ohio.data.pct}%`);
+                            });
+
+                            var legends = d3.select(".ohiost-pie-chart").append("g").attr("transform", "translate(500, 100)")
+                                .selectAll(".legends").data(data);
+                            var legend = legends.enter().append("g").classed("legends", true)
+                                .attr("transform", function (d, i) { return "translate(0," + (i + 1) * 30 + ")"; });
+                            legend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
+                                function (d) { return colors(d.data.pct); });
+                            legend.append("text").text(function (d) { return d.data.race; })
+                                .attr("fill", function (d) { return colors(d.data.pct) })
+                                .attr("x", 30)
+                                .attr("y", 20);
+
+                            //Ohio State Majors Pie Chart
+
+                            var ohiomColors = d3.scaleOrdinal(d3.schemeBlues[6])
+                            var ohiomajorDetails = [
+                                    { major: "Other", pct: 77 },
+                                    { major: "Finance", pct: 6 },
+                                    { major: "Psychology", pct: 5 },
+                                    { major: "Marketing", pct: 4 },
+                                    { major: "Rhetoric", pct: 4 },
+                                    { major: "Biology", pct: 4 }
+                                ]
+                                
+                            var ohiomData = d3.pie().value(function (o) { return o.pct })(ohiomajorDetails);
+                            var ohiomSegments = d3.arc()
+                                .innerRadius(0)
+                                .outerRadius(200)
+                                .padAngle(.05)
+                                .padRadius(50);
+
+                            var ohiomSections = d3.select(".ohiost-majors").append("g").attr("transform", "translate(250, 250)")
+                                .selectAll("path").data(mData);
+                            ohiomSections.enter().append("path").attr("d", ohiomSegments).attr("fill",
+                                function (o) {
+                                    return mColors(o.data.pct)
+                                })
+
+
+                            var ohiomContent = d3.select("g").selectAll("text").data(ohiomData);
+                            ohiomContent.enter().append("text").each(function (o) {
+                                var ohiomCenter = ohiomSegments.centroid(o);
+                                d3.select(this).attr("x", ohiomCenter[0]).attr("y", ohiomCenter[1])
+                                    .text(`${o.data.pct}%`)
+                            });
+
+                            var ohiomLegends = d3.select(".ohiost-majors").append("g").attr("transform", "translate(500, 100)")
+                                .selectAll(".ohiomLegends").data(ohiomData);
+                            var ohiomLegend = ohiomLegends.enter().append("g").classed("ohiomLegends", true)
+                                .attr("transform", function (o, i) { return "translate(0," + (i + 1) * 30 + ")"; });
+                            ohiomLegend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
+                                function (o) { return ohiomColors(o.data.pct); });
+                            ohiomLegend.append("text").text(function (o) { return o.data.major; })
+                                .attr("fill", function (o) { return ohiomColors(o.data.pct) })
+                                .attr("x", 30)
+                                .attr("y", 20);
+
+                             //Pitt Demographic Pie Chart
+                                var pittColors = d3.scaleOrdinal(d3.schemeBlues[5])
+                                var pittDetails = [{ race: "White", pct: 72 },
+                                    { race: "Asian", pct: 12 },
+                                    { race: "Latino", pct: 5 },
+                                    { race: "Black/African American", pct: 6 },
+                                    { race: "Other/Unknown/Mixed Race (Not Latino)", pct: 5 }]
+                                var pittData = d3.pie().value(function (pitt) { return pitt.pct })(pittDetails);
+                                console.log(pittData);
+                                var pittSegments = d3.arc()
+                                    .innerRadius(0)
+                                    .outerRadius(200)
+                                    .padAngle(.05)
+                                    .padRadius(50);
+
+                                var pittSections = d3.select(".pitt-pie-chart").append("g").attr("transform", "translate(250, 250)")
+                                    .selectAll("path").data(pittData);
+                                pittSections.enter().append("path").attr("d", pittSegments).attr("fill",
+                                    function (pitt) { return pittColors(pitt.data.pct) })
+
+                                var pittContent = d3.select("g").selectAll("text").data(pittData);
+                                pittContent.enter().append("text").each(function (pitt) {
+                                    var pittCenter = pittSegments.centroid(pitt);
+                                    d3.select(this).attr("x", pittCenter[0]).attr("y", pittCenter[1])
+                                        .text(`${pitt.data.pct}%`);
+                                });
+
+                                var legends = d3.select(".pitt-pie-chart").append("g").attr("transform", "translate(500, 100)")
+                                    .selectAll(".legends").data(data);
+                                var legend = legends.enter().append("g").classed("legends", true)
+                                    .attr("transform", function (d, i) { return "translate(0," + (i + 1) * 30 + ")"; });
+                                legend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
+                                    function (d) { return colors(d.data.pct); });
+                                legend.append("text").text(function (d) { return d.data.race; })
+                                    .attr("fill", function (d) { return colors(d.data.pct) })
+                                    .attr("x", 30)
+                                    .attr("y", 20);
+
+                                //Pitt Majors Pie Chart
+
+                                var pittmColors = d3.scaleOrdinal(d3.schemeBlues[6])
+                                    var pittmajorDetails = [
+                                            { major: "Other", pct: 42 },
+                                            { major: "Business/Marketing", pct: 15 },
+                                            { major: "Engineering", pct: 13 },
+                                            { major: "Health", pct: 11 },
+                                            { major: "Social Sciences", pct: 10 },
+                                            { major: "Biology", pct: 9 }
+                                        ]
+
+                                    var pittmData = d3.pie().value(function (p) { return p.pct })(pittmajorDetails);
+                                    var pittmSegments = d3.arc()
+                                        .innerRadius(0)
+                                        .outerRadius(200)
+                                        .padAngle(.05)
+                                        .padRadius(50);
+
+                                    var pittmSections = d3.select(".pitt-majors").append("g").attr("transform", "translate(250, 250)")
+                                        .selectAll("path").data(pittmData);
+                                    pittmSections.enter().append("path").attr("d", pittmSegments).attr("fill",
+                                        function (p) {
+                                            return mColors(p.data.pct)
+                                        })
+
+
+                                    var pittmContent = d3.select("g").selectAll("text").data(pittmData);
+                                    pittmContent.enter().append("text").each(function (p) {
+                                        var pittmCenter = pittmSegments.centroid(p);
+                                        d3.select(this).attr("x", pittmCenter[0]).attr("y", pittmCenter[1])
+                                            .text(`${p.data.pct}%`)
+                                    });
+
+                                    var pittmLegends = d3.select(".pitt-majors").append("g").attr("transform", "translate(500, 100)")
+                                        .selectAll(".pittmLegends").data(pittmData);
+                                    var pittmLegend = pittmLegends.enter().append("g").classed("pittmLegends", true)
+                                        .attr("transform", function (p, i) { return "translate(0," + (i + 1) * 30 + ")"; });
+                                    pittmLegend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
+                                        function (p) { return pittmColors(p.data.pct); });
+                                    pittmLegend.append("text").text(function (p) { return p.data.major; })
+                                        .attr("fill", function (p) { return pittmColors(p.data.pct) })
+                                        .attr("x", 30)
+                                        .attr("y", 20);
+
+                                 //Seattle Demographic Pie Chart
+                                    var seaColors = d3.scaleOrdinal(d3.schemeBlues[5])
+                                    var seaDetails = [{ race: "White", pct: 44 },
+                                        { race: "Asian", pct: 30 },
+                                        { race: "Latino", pct: 11 },
+                                        { race: "Black/African American", pct: 4 },
+                                        { race: "Other/Unknown/Mixed Race (Not Latino)", pct: 11 }]
+                                    var seaData = d3.pie().value(function (sea) { return sea.pct })(seaDetails);
+                                    console.log(seaData);
+                                    var seaSegments = d3.arc()
+                                        .innerRadius(0)
+                                        .outerRadius(200)
+                                        .padAngle(.05)
+                                        .padRadius(50);
+
+                                    var seaSections = d3.select(".sea-pie-chart").append("g").attr("transform", "translate(250, 250)")
+                                        .selectAll("path").data(seaData);
+                                    seaSections.enter().append("path").attr("d", seaSegments).attr("fill",
+                                        function (sea) { return seaColors(sea.data.pct) })
+
+                                    var seaContent = d3.select("g").selectAll("text").data(seaData);
+                                    seaContent.enter().append("text").each(function (sea) {
+                                        var seaCenter = seaSegments.centroid(sea);
+                                        d3.select(this).attr("x", seaCenter[0]).attr("y", seaCenter[1])
+                                            .text(`${sea.data.pct}%`);
+                                    });
+
+                                    var legends = d3.select(".sea-pie-chart").append("g").attr("transform", "translate(500, 100)")
+                                        .selectAll(".legends").data(data);
+                                    var legend = legends.enter().append("g").classed("legends", true)
+                                        .attr("transform", function (d, i) { return "translate(0," + (i + 1) * 30 + ")"; });
+                                    legend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
+                                        function (d) { return colors(d.data.pct); });
+                                    legend.append("text").text(function (d) { return d.data.race; })
+                                        .attr("fill", function (d) { return colors(d.data.pct) })
+                                        .attr("x", 30)
+                                        .attr("y", 20);
+
+                                    //Seattle Majors Pie Chart
+
+                                    var seamColors = d3.scaleOrdinal(d3.schemeBlues[6])
+                                        var seamajorDetails = [
+                                                { major: "Other", pct: 50 },
+                                                { major: "Social Sciences", pct: 12 },
+                                                { major: "Engineering", pct: 10 },
+                                                { major: "Biological and Biomedical Sciences", pct: 10 },
+                                                { major: "Computer and Information Sciences", pct: 10 },
+                                                { major: "Business/Marketing", pct: 8 }
+                                            ]
+
+                                        var seamData = d3.pie().value(function (s) { return s.pct })(seamajorDetails);
+                                        var seamSegments = d3.arc()
+                                            .innerRadius(0)
+                                            .outerRadius(200)
+                                            .padAngle(.05)
+                                            .padRadius(50);
+
+                                        var seamSections = d3.select(".sea-majors").append("g").attr("transform", "translate(250, 250)")
+                                            .selectAll("path").data(seamData);
+                                        seamSections.enter().append("path").attr("d", seamSegments).attr("fill",
+                                            function (s) {
+                                                return seamColors(s.data.pct)
+                                            })
+
+
+                                        var seamContent = d3.select("g").selectAll("text").data(seamData);
+                                        seamContent.enter().append("text").each(function (s) {
+                                            var seamCenter = seamSegments.centroid(s);
+                                            d3.select(this).attr("x", seamCenter[0]).attr("y", seamCenter[1])
+                                                .text(`${s.data.pct}%`)
+                                        });
+
+                                        var seamLegends = d3.select(".sea-majors").append("g").attr("transform", "translate(500, 100)")
+                                            .selectAll(".seamLegends").data(seamData);
+                                        var seamLegend = seamLegends.enter().append("g").classed("seamLegends", true)
+                                            .attr("transform", function (s, i) { return "translate(0," + (i + 1) * 30 + ")"; });
+                                        seamLegend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
+                                            function (s) { return seamColors(s.data.pct); });
+                                        seamLegend.append("text").text(function (s) { return s.data.major; })
+                                            .attr("fill", function (s) { return seamColors(s.data.pct) })
+                                            .attr("x", 30)
+                                            .attr("y", 20);
 
 
 
@@ -303,4 +592,5 @@
         </script>
 
 </body>
+
 </html>

@@ -85,20 +85,78 @@ ul {
     justify-content: space-around;
 }
 
+.ohiost h3 {
+    font-size: 40px;
+    margin-left: 15px;
+}
+
+.ohiost span {
+    margin-left: 15px;
+    transform: translateY(150%);
+}
+
+.ohiost ul {
+    font-size: 25px;
+}
+
 .ohiost {
-    position: absolute;
-    text-align: center;
     padding: 10px;
     display: none;
-    z-index: 1,
+    z-index: 1;
+    background-color: rgb(187,0,1);
+    color: rgb(102,102,102);
+    width: 40%;
+    list-style-type: none;
+}
+
+.ohiost-pie-chart {
+    display: none;
+}
+
+.ohiost-majors {
+    display: none;
+}
+
+.ohiost-data {
+    display: flex;
+    justify-content: space-around;
+}
+
+.pitt h3 {
+    font-size: 40px;
+    margin-left: 15px;
+}
+
+.pitt span {
+    margin-left: 15px;
+    transform: translateY(150%);
+}
+
+.pitt ul {
+    font-size: 25px;
 }
 
 .pitt {
-    position: absolute;
-    text-align: center;
     padding: 10px;
     display: none;
-    z-index: 1,
+    z-index: 1;
+    background-color: rgb(13,70,135);
+    color: rgb(242,177,45);
+    width: 40%;
+    list-style-type: none;
+}
+
+.pitt-pie-chart {
+    display: none;
+}
+
+.pitt-majors {
+    display: none;
+}
+
+.pitt-data {
+    display: flex;
+    justify-content: space-around;
 }
 
 .chi {
@@ -109,12 +167,41 @@ ul {
     z-index: 1,
 }
 
+.sea h3 {
+    font-size: 40px;
+    margin-left: 15px;
+}
+
+.sea span {
+    margin-left: 15px;
+    transform: translateY(150%);
+}
+
+.sea ul {
+    font-size: 25px;
+}
+
 .sea {
-    position: absolute;
-    text-align: center;
     padding: 10px;
     display: none;
-    z-index: 1,
+    z-index: 1;
+    background-color: rgb(75,46,131);
+    color: rgb(183,165,122);
+    width: 40%;
+    list-style-type: none;
+}
+
+.sea-pie-chart {
+    display: none;
+}
+
+.sea-majors {
+    display: none;
+}
+
+.sea-data {
+    display: flex;
+    justify-content: space-around;
 }
 
 .show {
