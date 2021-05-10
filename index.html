@@ -13,9 +13,16 @@
     <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
     <script src="./lib/index.js"></script>
     <link rel="stylesheet" href="./lib/index.css">
+    <script src="jquery.js"></script>
+    <script>
+        $(function () {
+            $("#Contenttoinclude").load("./data.html");
+        });
+    </script>
 </head>
 
 <body>
+    <div id="Contenttoinclude"></div>
     <h1>US Colleges Data Visualization</h1>
     <div class='map-and-college'>
         <svg id="my_usmap" width="880" height="600"></svg>
@@ -153,7 +160,7 @@
                 console.log(projection(ucb))
 
                 svg.selectAll("circle")
-                    .data([sjsu, ucb, ohiost, pitt, chi, sea]).enter()
+                    .data([sjsu, ucb, ohiost, pitt,]).enter()
                     .append("circle")
                     .attr("cx", function (d) { console.log(projection(d.coordinates)); return projection(d.coordinates)[0]; })
                     .attr("cy", function (d) { return projection(d.coordinates)[1]; })
@@ -226,6 +233,7 @@
                     .padAngle(.05)
                     .padRadius(50);
 
+                debugger    
                 var sections = d3.select(".sjsu-pie-chart").append("g").attr("transform", "translate(250, 250)")
                     .selectAll("path").data(data);
                 sections.enter().append("path").attr("d", segments).attr("fill",
@@ -251,6 +259,7 @@
                     .attr("y", 20);
 
                 //UCB Demographic Pie Chart
+                debugger
                 var berkColors = d3.scaleOrdinal(d3.schemeBlues[5])
                 var berkDetails = [{ race: "Asian", pct: 41 },
                 { race: "Latino", pct: 18 },
@@ -501,87 +510,87 @@
                                         .attr("y", 20);
 
                                  //Seattle Demographic Pie Chart
-                                    var seaColors = d3.scaleOrdinal(d3.schemeBlues[5])
-                                    var seaDetails = [{ race: "White", pct: 44 },
-                                        { race: "Asian", pct: 30 },
-                                        { race: "Latino", pct: 11 },
-                                        { race: "Black/African American", pct: 4 },
-                                        { race: "Other/Unknown/Mixed Race (Not Latino)", pct: 11 }]
-                                    var seaData = d3.pie().value(function (sea) { return sea.pct })(seaDetails);
-                                    console.log(seaData);
-                                    var seaSegments = d3.arc()
-                                        .innerRadius(0)
-                                        .outerRadius(200)
-                                        .padAngle(.05)
-                                        .padRadius(50);
+                                    // var seaColors = d3.scaleOrdinal(d3.schemeBlues[5])
+                                    // var seaDetails = [{ race: "White", pct: 44 },
+                                    //     { race: "Asian", pct: 30 },
+                                    //     { race: "Latino", pct: 11 },
+                                    //     { race: "Black/African American", pct: 4 },
+                                    //     { race: "Other/Unknown/Mixed Race (Not Latino)", pct: 11 }]
+                                    // var seaData = d3.pie().value(function (sea) { return sea.pct })(seaDetails);
+                                    // console.log(seaData);
+                                    // var seaSegments = d3.arc()
+                                    //     .innerRadius(0)
+                                    //     .outerRadius(200)
+                                    //     .padAngle(.05)
+                                    //     .padRadius(50);
 
-                                    var seaSections = d3.select(".sea-pie-chart").append("g").attr("transform", "translate(250, 250)")
-                                        .selectAll("path").data(seaData);
-                                    seaSections.enter().append("path").attr("d", seaSegments).attr("fill",
-                                        function (sea) { return seaColors(sea.data.pct) })
+                                    // var seaSections = d3.select(".sea-pie-chart").append("g").attr("transform", "translate(250, 250)")
+                                    //     .selectAll("path").data(seaData);
+                                    // seaSections.enter().append("path").attr("d", seaSegments).attr("fill",
+                                    //     function (sea) { return seaColors(sea.data.pct) })
 
-                                    var seaContent = d3.select("g").selectAll("text").data(seaData);
-                                    seaContent.enter().append("text").each(function (sea) {
-                                        var seaCenter = seaSegments.centroid(sea);
-                                        d3.select(this).attr("x", seaCenter[0]).attr("y", seaCenter[1])
-                                            .text(`${sea.data.pct}%`);
-                                    });
+                                    // var seaContent = d3.select("g").selectAll("text").data(seaData);
+                                    // seaContent.enter().append("text").each(function (sea) {
+                                    //     var seaCenter = seaSegments.centroid(sea);
+                                    //     d3.select(this).attr("x", seaCenter[0]).attr("y", seaCenter[1])
+                                    //         .text(`${sea.data.pct}%`);
+                                    // });
 
-                                    var legends = d3.select(".sea-pie-chart").append("g").attr("transform", "translate(500, 100)")
-                                        .selectAll(".legends").data(data);
-                                    var legend = legends.enter().append("g").classed("legends", true)
-                                        .attr("transform", function (d, i) { return "translate(0," + (i + 1) * 30 + ")"; });
-                                    legend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
-                                        function (d) { return colors(d.data.pct); });
-                                    legend.append("text").text(function (d) { return d.data.race; })
-                                        .attr("fill", function (d) { return colors(d.data.pct) })
-                                        .attr("x", 30)
-                                        .attr("y", 20);
+                                    // var legends = d3.select(".sea-pie-chart").append("g").attr("transform", "translate(500, 100)")
+                                    //     .selectAll(".legends").data(data);
+                                    // var legend = legends.enter().append("g").classed("legends", true)
+                                    //     .attr("transform", function (d, i) { return "translate(0," + (i + 1) * 30 + ")"; });
+                                    // legend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
+                                    //     function (d) { return colors(d.data.pct); });
+                                    // legend.append("text").text(function (d) { return d.data.race; })
+                                    //     .attr("fill", function (d) { return colors(d.data.pct) })
+                                    //     .attr("x", 30)
+                                    //     .attr("y", 20);
 
-                                    //Seattle Majors Pie Chart
+                                    // //Seattle Majors Pie Chart
 
-                                    var seamColors = d3.scaleOrdinal(d3.schemeBlues[6])
-                                        var seamajorDetails = [
-                                                { major: "Other", pct: 50 },
-                                                { major: "Social Sciences", pct: 12 },
-                                                { major: "Engineering", pct: 10 },
-                                                { major: "Biological and Biomedical Sciences", pct: 10 },
-                                                { major: "Computer and Information Sciences", pct: 10 },
-                                                { major: "Business/Marketing", pct: 8 }
-                                            ]
+                                    // var seamColors = d3.scaleOrdinal(d3.schemeBlues[6])
+                                    //     var seamajorDetails = [
+                                    //             { major: "Other", pct: 50 },
+                                    //             { major: "Social Sciences", pct: 12 },
+                                    //             { major: "Engineering", pct: 10 },
+                                    //             { major: "Biological and Biomedical Sciences", pct: 10 },
+                                    //             { major: "Computer and Information Sciences", pct: 10 },
+                                    //             { major: "Business/Marketing", pct: 8 }
+                                    //         ]
 
-                                        var seamData = d3.pie().value(function (s) { return s.pct })(seamajorDetails);
-                                        var seamSegments = d3.arc()
-                                            .innerRadius(0)
-                                            .outerRadius(200)
-                                            .padAngle(.05)
-                                            .padRadius(50);
+                                    //     var seamData = d3.pie().value(function (s) { return s.pct })(seamajorDetails);
+                                    //     var seamSegments = d3.arc()
+                                    //         .innerRadius(0)
+                                    //         .outerRadius(200)
+                                    //         .padAngle(.05)
+                                    //         .padRadius(50);
 
-                                        var seamSections = d3.select(".sea-majors").append("g").attr("transform", "translate(250, 250)")
-                                            .selectAll("path").data(seamData);
-                                        seamSections.enter().append("path").attr("d", seamSegments).attr("fill",
-                                            function (s) {
-                                                return seamColors(s.data.pct)
-                                            })
+                                    //     var seamSections = d3.select(".sea-majors").append("g").attr("transform", "translate(250, 250)")
+                                    //         .selectAll("path").data(seamData);
+                                    //     seamSections.enter().append("path").attr("d", seamSegments).attr("fill",
+                                    //         function (s) {
+                                    //             return seamColors(s.data.pct)
+                                    //         })
 
 
-                                        var seamContent = d3.select("g").selectAll("text").data(seamData);
-                                        seamContent.enter().append("text").each(function (s) {
-                                            var seamCenter = seamSegments.centroid(s);
-                                            d3.select(this).attr("x", seamCenter[0]).attr("y", seamCenter[1])
-                                                .text(`${s.data.pct}%`)
-                                        });
+                                    //     var seamContent = d3.select("g").selectAll("text").data(seamData);
+                                    //     seamContent.enter().append("text").each(function (s) {
+                                    //         var seamCenter = seamSegments.centroid(s);
+                                    //         d3.select(this).attr("x", seamCenter[0]).attr("y", seamCenter[1])
+                                    //             .text(`${s.data.pct}%`)
+                                    //     });
 
-                                        var seamLegends = d3.select(".sea-majors").append("g").attr("transform", "translate(500, 100)")
-                                            .selectAll(".seamLegends").data(seamData);
-                                        var seamLegend = seamLegends.enter().append("g").classed("seamLegends", true)
-                                            .attr("transform", function (s, i) { return "translate(0," + (i + 1) * 30 + ")"; });
-                                        seamLegend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
-                                            function (s) { return seamColors(s.data.pct); });
-                                        seamLegend.append("text").text(function (s) { return s.data.major; })
-                                            .attr("fill", function (s) { return seamColors(s.data.pct) })
-                                            .attr("x", 30)
-                                            .attr("y", 20);
+                                    //     var seamLegends = d3.select(".sea-majors").append("g").attr("transform", "translate(500, 100)")
+                                    //         .selectAll(".seamLegends").data(seamData);
+                                    //     var seamLegend = seamLegends.enter().append("g").classed("seamLegends", true)
+                                    //         .attr("transform", function (s, i) { return "translate(0," + (i + 1) * 30 + ")"; });
+                                    //     seamLegend.append("rect").attr("width", 20).attr("height", 20).attr("fill",
+                                    //         function (s) { return seamColors(s.data.pct); });
+                                    //     seamLegend.append("text").text(function (s) { return s.data.major; })
+                                    //         .attr("fill", function (s) { return seamColors(s.data.pct) })
+                                    //         .attr("x", 30)
+                                    //         .attr("y", 20);
 
 
 
